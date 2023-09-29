@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
+
 var userSchema = new mongoose.Schema({
     fullname:{
         type:String,
@@ -20,4 +21,5 @@ var userSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model('User', userSchema);
+const userschema = mongoose.model('User', userSchema);
+module.exports = userschema; 
