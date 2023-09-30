@@ -1,4 +1,5 @@
-const mongoose = require('mongoose'); // Erase if already required
+const mongoose = require('mongoose'); 
+const bcrypt = require('bcrypt')
 
 // Declare the Schema of the Mongo model
 
@@ -20,6 +21,17 @@ var userSchema = new mongoose.Schema({
     },
 });
 
+userSchema.pre("save" ,async function(next){
+    const salt = bcrypt.genSaltSync(10);
+this.password = bcrypt.hashSync(this.password, salt);
+
+});
+
+const isPasswordMatched = (
+userSchema.methods.isPasswordMatched = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword , this.password)
+});
+
 //Export the model
-const userschema = mongoose.model('User', userSchema);
+const userschema = mongoose.model('User', userSchema,"isPasswordMatched");
 module.exports = userschema; 
