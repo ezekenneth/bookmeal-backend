@@ -44,7 +44,17 @@ const loginUser = asyncHandler ( async (req , res) => {
 
 });
 
+//get all users
+
+const getallUsers = asyncHandler(async (req , res) => {
+  try {
+    const getUsers = await userschema.find();
+    res.json(getUsers);
+
+  } catch (error) {
+    throw new Error(error)
+  }
+});
 
 
-
-module.exports = {createUser , loginUser}
+module.exports = {createUser , loginUser, getallUsers}
