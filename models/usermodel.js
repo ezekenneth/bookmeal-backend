@@ -31,11 +31,11 @@ this.password = bcrypt.hashSync(this.password, salt);
 
 });
 
-const isPasswordMatched = (
+
 userSchema.methods.isPasswordMatched = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword , this.password)
-});
+};
 
 //Export the model
-const userschema = mongoose.model('User', userSchema,"isPasswordMatched");
+const userschema = mongoose.model('Users', userSchema);
 module.exports = userschema; 

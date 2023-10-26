@@ -70,5 +70,19 @@ const getaUser = asyncHandler (async (req , res)=> {
     }
 })
 
+//delete a user
 
-module.exports = {createUser , loginUser, getallUsers, getaUser};
+const deleteaUser = asyncHandler (async (req , res)=> {
+  const {id} = req.params;
+      try {
+      const deleteaUser = await userschema.findByIdAndDelete(id);
+      res.json(deleteaUser)
+      
+  } catch (error) {
+      throw new Error(error);
+      
+  }
+})
+
+
+module.exports = {createUser , loginUser, getallUsers, getaUser, deleteaUser};
