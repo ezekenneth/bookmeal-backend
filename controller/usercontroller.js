@@ -47,9 +47,9 @@ const loginUser = asyncHandler ( async (req , res) => {
 //update a user
 
 const updateauser = asyncHandler(async (req , res) => {
-  const {id} = req.params;
+  const {_id} = req.user;
   try {
-    const updateauser = await userschema.findByIdAndUpdate(id, {
+    const updateauser = await userschema.findByIdAndUpdate(_id, {
       fullname: req.body?.fullname,
       email : req.body?.email,
     },
@@ -101,7 +101,39 @@ const deleteaUser = asyncHandler (async (req , res)=> {
       throw new Error(error);
       
   }
-})
+});
+
+ //block user
+
+ const blockUser = asyncHandler(async (req, res) =>{
+ const {id} = req.params;
+
+ try {
+  const block =await userschema.findByIdAndUpdate(id, {isBlocked:true},{new:true});
+  res.json({
+    message: "user Blocked",
+  })
+ } catch (error) {
+  throw new Error(error);
+ }
+
+ });
+
+   //unblock user
+ const unblockUser = asyncHandler(async (req, res) =>{
+  
+  const {id} = req.params;
+
+  try {
+    const block = await userschema.findByIdAndUpdate(id, {isBlocked:false},{new:true});
+    res.json({
+      message: "user Unblocked",
+    })
+   } catch (error) {
+    throw new Error(error);
+   }
+  ç
+ });
 
 
-module.exports = {createUser , loginUser, getallUsers, getaUser, deleteaUser, updateauser};
+module.exports = {createUser , loginUser, getallUsers, getaUser, deleteaUser, updateauser,blockUser,unblockUser};
