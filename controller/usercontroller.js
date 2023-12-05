@@ -1,6 +1,8 @@
 const { generateToken } = require("../config/jwttoken");
 const userschema = require("../models/usermodel");
 const asyncHandler = require('express-async-handler');
+const validateDBid = require("../utils/validateDBid");
+
 
 
 //register a user
@@ -48,6 +50,7 @@ const loginUser = asyncHandler ( async (req , res) => {
 
 const updateauser = asyncHandler(async (req , res) => {
   const {_id} = req.user;
+  validateDBid(_id);
   try {
     const updateauser = await userschema.findByIdAndUpdate(_id, {
       fullname: req.body?.fullname,
@@ -79,6 +82,7 @@ const getallUsers = asyncHandler(async (req , res) => {
 
 const getaUser = asyncHandler (async (req , res)=> {
     const {id} = req.params;
+    validateDBid(id);
         try {
         const getaUser = await userschema.findById(id);
         res.json(getaUser)
@@ -93,6 +97,7 @@ const getaUser = asyncHandler (async (req , res)=> {
 
 const deleteaUser = asyncHandler (async (req , res)=> {
   const {id} = req.params;
+  validateDBid(id);
       try {
       const deleteaUser = await userschema.findByIdAndDelete(id);
       res.json(deleteaUser)
@@ -107,12 +112,10 @@ const deleteaUser = asyncHandler (async (req , res)=> {
 
  const blockUser = asyncHandler(async (req, res) =>{
  const {id} = req.params;
-
+ validateDBid(id);
  try {
-  const block =await userschema.findByIdAndUpdate(id, {isBlocked:true},{new:true});
-  res.json({
-    message: "user Blocked",
-  })
+  const blockuser =await userschema.findByIdAndUpdate(id, {isBlocked:true},{new:true});
+  res.json(blockuser);
  } catch (error) {
   throw new Error(error);
  }
@@ -123,16 +126,17 @@ const deleteaUser = asyncHandler (async (req , res)=> {
  const unblockUser = asyncHandler(async (req, res) =>{
   
   const {id} = req.params;
+  validateDBid(id);
 
   try {
-    const block = await userschema.findByIdAndUpdate(id, {isBlocked:false},{new:true});
+    const unblock = await userschema.findByIdAndUpdate(id, {isBlocked:false},{new:true});
     res.json({
       message: "user Unblocked",
     })
    } catch (error) {
     throw new Error(error);
    }
-  ç
+  
  });
 
 
